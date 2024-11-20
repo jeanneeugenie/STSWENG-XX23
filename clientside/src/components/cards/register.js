@@ -11,7 +11,7 @@ const RegisterCard = () => {
         <Typography variant="h6" component="div" gutterBottom>
           DLSU Email
         </Typography>
-        <TextField
+        <TextField required="True" 
           label="DLSU Email"
           type="email"
           variant="outlined"
@@ -20,7 +20,7 @@ const RegisterCard = () => {
         <Typography variant="h6" component="div" gutterBottom>
           Password
         </Typography>
-        <TextField
+        <TextField required="True" 
           label="Password"
           type="password"
           variant="outlined"
@@ -37,7 +37,7 @@ const RegisterCard = () => {
             <FormControlLabel value="driver" control={<Radio />} label="Driver" />
         </RadioGroup>
         </FormControl>
-        <Button variant="contained" color="primary" className={classes.button}>
+        <Button variant="contained" className={classes.button}>
           Sign In
         </Button>
         <Link href="/signin" variant="body2" className={classes.link}>

@@ -10,7 +10,7 @@ const SignInCard = () => {
         <Typography variant="h6" component="div" gutterBottom>
           DLSU Email
         </Typography>
-        <TextField
+        <TextField required="True" 
           label="DLSU Email"
           type="email"
           variant="outlined"
@@ -19,13 +19,13 @@ const SignInCard = () => {
         <Typography variant="h6" component="div" gutterBottom>
           Password
         </Typography>
-        <TextField
+        <TextField required="True" 
           label="Password"
           type="password"
           variant="outlined"
           className={classes.textField}
         />
-        <Button variant="contained" color="primary" className={classes.button}>
+        <Button variant="contained" className={classes.button}>
           Sign In
         </Button>
         <Link href="/register" variant="body2" className={classes.link}>
