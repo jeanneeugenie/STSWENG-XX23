@@ -11,8 +11,8 @@ const RegisterCard = () => {
         <Typography variant="h6" component="div" gutterBottom>
           DLSU Email
         </Typography>
-        <TextField required="True" 
-          label="DLSU Email"
+        <TextField required="True"
+          label="Enter DLSU Email"
           type="email"
           variant="outlined"
           className={classes.textField}
@@ -21,7 +21,26 @@ const RegisterCard = () => {
           Password
         </Typography>
         <TextField required="True" 
-          label="Password"
+          label="Enter Password"
+          type="password"
+          variant="outlined"
+          className={classes.textField}
+        />
+        <Typography variant="h6" component="div" gutterBottom>
+          ID Number
+        </Typography>
+        <TextField
+          required="True"
+          type="Number"
+          label="Enter ID Number"
+          variant="outlined"
+          className={classes.textField}
+        />
+         <Typography variant="h6" component="div" gutterBottom>
+          Name
+        </Typography>
+        <TextField required="True" 
+          label="Enter your name"
           type="password"
           variant="outlined"
           className={classes.textField}

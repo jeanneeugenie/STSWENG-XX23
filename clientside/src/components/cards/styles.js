@@ -27,4 +27,12 @@ export default makeStyles ((theme) => ({
           color: theme.palette.grey[600],
           fontSize: '0.9rem',
       },
+      stickyButton: {
+        position: 'sticky',
+        backgroundColor: '#A3B18A !important',
+        bottom: '2%',
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center'
+      }
 }));
