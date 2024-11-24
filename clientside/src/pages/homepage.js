@@ -42,7 +42,7 @@ const HomePage = ({ isDriver }) => {
         setDialogState(false);
     };
     const getRide = (rideDetails) => {
-        setBookedRide(rideDetails);
+        setBookedRide(rideDetails); 
         alert(`You have booked the ride to ${rideDetails.destination}`);
     };
     return (
@@ -51,7 +51,7 @@ const HomePage = ({ isDriver }) => {
             <FilterSection onApplyFilter={setFilters} />
             <div style={centeredContainer}>
                 {filterRides.map((ride) => (
-                <RidePostCard key={ride.id} destination = {ride.destination} pickupPoint = {ride.pickupPoint} driver = {ride.driver} time = {ride.time} getRide={getRide}/>
+                <RidePostCard key={ride.id} destination = {ride.destination} pickupPoint = {ride.pickupPoint} driver = {ride.driver} time = {ride.time}/>
                 ))}
             </div>
             { isDriver && (
