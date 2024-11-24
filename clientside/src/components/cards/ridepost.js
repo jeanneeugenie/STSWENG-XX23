@@ -20,6 +20,12 @@ const RidePostCard = ({ destination, pickupPoint, driverName, time, rating }) =>
         <Typography variant="h6" component="div" className={classes.greyH6} gutterBottom>
         {time || 'Schedule'}
         </Typography>
+        <Typography variant="h6" component="div" className={classes.greyH6} gutterBottom>
+        {licensePlate || 'License Plate'}
+        </Typography>
+        <Typography variant="h6" component="div" className={classes.greyH6} gutterBottom>
+        {color || 'Color'}
+        </Typography>
       </CardContent>
     </Card>
   );
