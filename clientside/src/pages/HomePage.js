@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import RidePostCard from '../components/cards/ridepost';
 import FilterSection from '../components/header/filters';
-import {Button, Dialog, DialogContent, DialogActions, TextField, Typography} from '@mui/material';
+import {Button, Dialog, DialogContent, DialogActions, TextField, Typography, Rating} from '@mui/material';
 const HomePage = ({ isDriver }) => {
     const centeredContainer = {
         display: 'flex',
@@ -19,10 +19,13 @@ const HomePage = ({ isDriver }) => {
     };
     const [filters, setFilters] = useState({});
     const [dialogState, setDialogState] = useState(false);
+    const [selectedRide, setSelectedRide] = useState(null);
+    const [detailsDialogOpen, setDetailsDialogOpen] = useState(false); 
     const [bookedRide, setBookedRide] = useState(null);
+
     const tempData = [
-        { id: 1, driver: 'Driver A', rating: 5, pickupPoint: 'GT Building', destination: 'MRR', time: '830' },
-        { id: 2, driver: 'Driver B', rating: 4, pickupPoint: 'MRR', destination: 'GT Building', time: '1030' },
+        { id: 1, driver: 'Driver A', rating: 5, pickupPoint: 'GT Building', destination: 'MRR', time: '8:30 AM', carDetails: 'ABC 1234, White Toyota Fortuner'},
+        { id: 2, driver: 'Driver B', rating: 4, pickupPoint: 'MRR', destination: 'GT Building', time: '10:30 AM', carDetails: 'DEF 5678, Black Isuzu D-Max'},
     ];
 
     const filterRides = tempData.filter((ride) => {
@@ -41,6 +44,15 @@ const HomePage = ({ isDriver }) => {
     const closeDialog = () => {
         setDialogState(false);
     };
+    const openRideDetails = (ride) => {
+        setSelectedRide(ride);
+        setDetailsDialogOpen(true);
+    };
+
+    const closeDetails = () => {
+        setDetailsDialogOpen(false);
+        setSelectedRide(null);
+    };
     const getRide = (rideDetails) => {
         setBookedRide(rideDetails);
         alert(`You have booked the ride to ${rideDetails.destination}`);
@@ -51,7 +63,9 @@ const HomePage = ({ isDriver }) => {
             <FilterSection onApplyFilter={setFilters} />
             <div style={centeredContainer}>
                 {filterRides.map((ride) => (
-                <RidePostCard key={ride.id} destination = {ride.destination} pickupPoint = {ride.pickupPoint} driver = {ride.driver} time = {ride.time} getRide={getRide}/>
+                <RidePostCard key={ride.id} rating = {ride.rating} destination = {ride.destination} pickupPoint = {ride.pickupPoint} 
+                driver = {ride.driver} time = {ride.time} getRide={getRide} carDetails = {ride.carDetails}
+                openRideDetails={() => openRideDetails(ride)}/>
                 ))}
             </div>
             { isDriver && (
@@ -128,6 +142,60 @@ const HomePage = ({ isDriver }) => {
                             }}
                         >
                             Post Ride
+                        </Button>
+                    </DialogActions>
+                </DialogContent>
+            </Dialog>
+
+
+            <Dialog open={detailsDialogOpen} onClose={closeDetails}>
+                <DialogContent
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'left',
+                        padding: '2rem',
+                    }}
+                >
+                    <Rating
+                    name="driver-rating"
+                    value={selectedRide?.rating || 0}
+                    readOnly
+                    precision={0.5}
+                    size="medium"
+                    />
+                    <Typography variant="h5" sx={{ fontWeight: 'bold'}}>
+                        {selectedRide?.destination}
+                    </Typography>
+                    <Typography variant="h6" color="gray">
+                        Pick up point: {selectedRide?.pickupPoint}
+                    </Typography>
+                    <Typography variant="h6" color="gray">
+                        Pick up time: {selectedRide?.time}
+                    </Typography>
+                    <Typography variant="h6" color="gray">
+                        Driver: {selectedRide?.driver}
+                    </Typography>
+                    <Typography variant="h6" color="gray">
+                        Vehicle Identification: {selectedRide?.carDetails}
+                    </Typography>
+                    <DialogActions sx={{ padding: '1px', marginTop: '1rem', width: '100%' }}>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            onClick={() => {
+                                getRide(selectedRide);
+                                closeDetails();
+                            }}
+                            sx={{
+                                backgroundColor: '#3A5940',
+                                '&:hover': {
+                                    backgroundColor: '#578158',
+                                },
+                                textTransform: 'none',
+                            }}
+                        >
+                            Book Ride
                         </Button>
                     </DialogActions>
                 </DialogContent>
