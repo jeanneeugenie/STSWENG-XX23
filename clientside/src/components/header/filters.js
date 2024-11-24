@@ -11,7 +11,7 @@ const FilterSection = ({ onApplyFilter }) => {
 
   const handleApplyFilter = () => {
     const filters = { driver, rating, destination, time };
-    onApplyFilter(filters); // ret tje filters
+    onApplyFilter(filters);
   };
 
   return (

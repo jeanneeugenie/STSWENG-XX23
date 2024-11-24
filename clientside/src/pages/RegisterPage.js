@@ -1,6 +1,5 @@
 import React from 'react';
 import RegisterCard from '../components/cards/register';
-import AppHeader from '../components/header/header'
 const RegisterPage = () => {
     const centeredContainer = {
         display: 'flex',
