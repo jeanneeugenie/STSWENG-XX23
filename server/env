@@ -1,0 +1,2 @@
+MONGO_URI=mongodb+srv://stswing:UuILEM1wjA5RqQva@rideshare.a7aih.mongodb.net/?retryWrites=true&w=majority&appName=RideShare
+PORT=2805
