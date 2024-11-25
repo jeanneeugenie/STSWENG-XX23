@@ -5,13 +5,13 @@ const ProfilePage = () => {
   return (
     <div
       style={{
-        height: '100vh', 
-        width: '100vw', 
-        backgroundColor: '#A3B18A', 
-        margin: 0, 
-        padding: 0, 
+        height: '100vh', // Full viewport height
+        width: '100vw', // Full viewport width
+        backgroundColor: '#A3B18A', // Background color
+        margin: 0, // Remove default margins
+        padding: 0, // Remove default paddings
         display: 'flex',
-        justifyContent: 'center', 
+        justifyContent: 'center', // Center content horizontally
         alignItems: 'center', 
       }}
     >

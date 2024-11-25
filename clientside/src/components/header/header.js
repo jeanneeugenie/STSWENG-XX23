@@ -1,14 +1,17 @@
 import React from 'react';
 import { AppBar, Toolbar, Button, Avatar, Box, Typography } from '@mui/material';
+import { Link } from 'react-router-dom'; // Import Link for navigation
 import blankProfile from '../imgs/blankProfile.jpg'; // Corrected path
 
 const AppHeader = () => {
+  const username = "John Doe"; // Replace with dynamic username if necessary
+
   return (
     <AppBar
       position="static"
       sx={{
         backgroundColor: '#3A5940', // Green header
-        height: { xs: 60, sm: 80 }, 
+        height: { xs: 60, sm: 80 },
         width: '100%',
       }}
     >
@@ -72,8 +75,16 @@ const AppHeader = () => {
           </Button>
         </Box>
 
-        {/* Right-aligned Profile button with Avatar */}
-        <Button color="inherit" href="/Profile">
+        {/* Right-aligned Profile section with Avatar and Centered Username */}
+        <Box
+          component={Link} // Use Link to enable navigation
+          to="/profile" // Navigate to ProfilePage
+          sx={{
+            display: 'flex',
+            alignItems: 'center', // Ensure Avatar and Username are vertically aligned
+            textDecoration: 'none', // Remove underline for links
+          }}
+        >
           <Avatar
             alt="Profile Picture"
             src={blankProfile} // Use the imported image
@@ -81,9 +92,20 @@ const AppHeader = () => {
               width: 40,
               height: 40,
               border: '2px solid white', // Add a border to the avatar
+              marginRight: 1, // Space between avatar and username
             }}
           />
-        </Button>
+          <Typography
+            variant="body1"
+            sx={{
+              color: 'white',
+              fontWeight: '500',
+              textAlign: 'center', // Center the text horizontally (in case of multiline text)
+            }}
+          >
+            {username}
+          </Typography>
+        </Box>
       </Toolbar>
     </AppBar>
   );
