@@ -24,8 +24,8 @@ const HomePage = ({ isDriver }) => {
     const [bookedRide, setBookedRide] = useState(null);
 
     const tempData = [
-        { id: 1, driver: 'Driver A', rating: 5, pickupPoint: 'GT Building', destination: 'MRR', time: '8:30 AM', carDetails: 'ABC 1234, White Toyota Fortuner'},
-        { id: 2, driver: 'Driver B', rating: 4, pickupPoint: 'MRR', destination: 'GT Building', time: '10:30 AM', carDetails: 'DEF 5678, Black Isuzu D-Max'},
+        { id: 1, driver: 'Driver A', rating: 5, pickupPoint: 'GT Building', destination: 'MRR', time: '8:30 AM', carDetails: 'ABC 1234, White Toyota Fortuner', maxPass: 4},
+        { id: 2, driver: 'Driver B', rating: 4, pickupPoint: 'MRR', destination: 'GT Building', time: '10:30 AM', carDetails: 'DEF 5678, Black Isuzu D-Max', maxPass: 3},
     ];
 
     const filterRides = tempData.filter((ride) => {
@@ -55,7 +55,7 @@ const HomePage = ({ isDriver }) => {
     };
     const getRide = (rideDetails) => {
         setBookedRide(rideDetails);
-        alert(`You have booked the ride to ${rideDetails.destination}`);
+        //alert(`You have booked the ride to ${rideDetails.destination}`);
     };
     return (
         
@@ -64,7 +64,7 @@ const HomePage = ({ isDriver }) => {
             <div style={centeredContainer}>
                 {filterRides.map((ride) => (
                 <RidePostCard key={ride.id} rating = {ride.rating} destination = {ride.destination} pickupPoint = {ride.pickupPoint} 
-                driver = {ride.driver} time = {ride.time} getRide={getRide} carDetails = {ride.carDetails}
+                driver = {ride.driver} time = {ride.time} getRide={getRide} carDetails = {ride.carDetails} maxPass = {ride.maxPass}
                 openRideDetails={() => openRideDetails(ride)}/>
                 ))}
             </div>
@@ -126,6 +126,16 @@ const HomePage = ({ isDriver }) => {
                         variant="outlined"
                         margin="dense"
                     />
+                    <Typography variant="h6">
+                        Maximum No. of Passengers
+                    </Typography>
+                    <TextField
+                        type="number"
+                        fullWidth
+                        label="Max No. of Passengers"
+                        variant="outlined"
+                        margin="dense"
+                    />
                     <DialogActions sx={{ padding: 0, marginTop: '1rem', width: '100%' }}>
                         <Button
                             fullWidth
@@ -147,7 +157,7 @@ const HomePage = ({ isDriver }) => {
                 </DialogContent>
             </Dialog>
 
-
+                                
             <Dialog open={detailsDialogOpen} onClose={closeDetails}>
                 <DialogContent
                     sx={{
