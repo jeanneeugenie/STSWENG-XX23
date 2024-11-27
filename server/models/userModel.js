@@ -19,17 +19,17 @@ const userSchema = new Schema({
         type: String,
         required:true
     },
+    idNumber: {
+        type: Number,
+        required: true
+    },
     name: {
         type: String,
         required: true
     },
-    riderRating: {
-        type: number,
-        default: 0
-    },
-    idNumber: {
-        type: String,
-        default: ""
+    driverBool:{
+        type: Boolean,
+        default: false
     },
     DepCourse: {
         type: String,
@@ -42,10 +42,6 @@ const userSchema = new Schema({
     usualSched:{
         type: String,
         default: ""
-    },
-    driverBool:{
-        type: Boolean,
-        default: false
     }
 });
 

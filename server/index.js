@@ -4,9 +4,20 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
+//route imports
+import authRoutes from "./routes/authRoute.js"
+
 dotenv.config();
 
 const app = express();
+
+//middleware
+app.use(express.json())
+
+app.use((req, res, next) => {
+    console.log(req.path, req.method); // Logs the request path and method
+    next(); // Passes control to the next middleware
+});
 
 // limit images to 30mb
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
@@ -18,7 +29,7 @@ app.get("/", (req, res) => {
     res.json({mssg:"Welcome to STSWING"})
 });
 
-
+app.use('/api/auth',authRoutes)
 
 
 //connect to mongodb then listen to requests
