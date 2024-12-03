@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 
 //route imports
 import authRoutes from "./routes/authRoute.js"
@@ -14,6 +15,7 @@ const app = express();
 
 //middleware
 app.use(express.json())
+app.use(cookieParser(process.env.COOKIE_SECRET))
 
 app.use((req, res, next) => {
     console.log(req.path, req.method); // Logs the request path and method

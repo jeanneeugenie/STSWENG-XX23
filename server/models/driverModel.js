@@ -15,9 +15,13 @@ const driverSchema = new Schema({
         }
     },
     driverRating: {
-        type: number,
+        type: Number,
+        default: 0
+    },
+    reviewCount: {
+        type: Number,
         default: 0
     }
 });
 
-export default mongoose.model('User', driverSchema);
+export default mongoose.model('Driver', driverSchema);

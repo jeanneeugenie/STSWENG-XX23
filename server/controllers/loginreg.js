@@ -1,12 +1,17 @@
-import userModel from "../models/userModel.js"
-import driverModel from "../models/driverModel.js"
+import userModel from "../models/userModel.js";
+import driverModel from "../models/driverModel.js";
+import jwt from "jsonwebtoken";
+
+const createToken = (email) => {
+    return jwt.sign({email}, process.env.JWT_SECRET, {expiresIn: '7d'})
+};
 
 const login = async(req, res) => {
     const {email, password} =  req.body
     try {
         const user = await userModel.findOne({email})
         if(!user){
-            res.status(404).json({error: "Email not valid"})
+            return res.status(404).json({error: "User doesn't exist"});
         }
 
         const isMatch = await user.comparePassword(password);
@@ -14,11 +19,22 @@ const login = async(req, res) => {
             return res.status(401).json({ error: "Invalid password" });
         }
 
-        res.status(200).json({message:"Login successful",user})
+        const token = createToken(email);
+
+        res.cookie(
+            'token', token, 
+            { httpOnly: true, secure: true, maxAge: 7 * 24 * 60 * 60 * 1000 }
+        );
+        res.cookie(
+            'userEmail', email, 
+            { httpOnly: false, secure: true, maxAge: 7 * 24 * 60 * 60 * 1000 }
+        );
+
+        return res.status(200).json({message: "Login Successful"});
     } catch (error) {
-        res.status(400).json({error: error.message})
+        return res.status(400).json({error: error.message});
     }
-} 
+};
 
 const register = async (req, res) => {
     const { email, password, idNumber, name, driverBool } = req.body;
@@ -38,11 +54,27 @@ const register = async (req, res) => {
             })
         }
 
-        res.status(201).json({ message: "User registered successfully", user });
+        const token = createToken(email);
+
+        res.cookie(
+            'token', token, 
+            { httpOnly: true, secure: true, maxAge: 7 * 24 * 60 * 60 * 1000 }
+        );
+        res.cookie(
+            'userEmail', email, 
+            { httpOnly: false, secure: true, maxAge: 7 * 24 * 60 * 60 * 1000 }
+        );
+
+        return res.status(201).json({message: "User Created Successfully"});
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        return res.status(400).json({ error: error.message });
     }
 };
 
+const logout = (req, res) => {
+    res.clearCookie('token', { httpOnly: true, secure: true });
+    res.clearCookie('userEmail', { httpOnly: false, secure: true });
+    res.status(200).json({ message: "Logged out successfully" });
+}
 
-export {login, register}
+export {login, register, logout};
