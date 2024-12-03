@@ -1,16 +1,15 @@
 import React from 'react';
 import { AppBar, Toolbar, Button, Avatar, Box, Typography } from '@mui/material';
-import { Link } from 'react-router-dom'; // Import Link for navigation
-import blankProfile from '../imgs/blankProfile.jpg'; // Corrected path
+import { Link } from 'react-router-dom';
+import blankProfile from '../imgs/blankProfile.jpg';
 
 const AppHeader = () => {
-  const username = "John Doe"; // Replace with dynamic username if necessary
-
+  const username = "John Doe";
   return (
     <AppBar
       position="static"
       sx={{
-        backgroundColor: '#3A5940', // Green header
+        backgroundColor: '#3A5940',
         height: { xs: 60, sm: 80 },
         width: '100%',
       }}
@@ -18,12 +17,11 @@ const AppHeader = () => {
       <Toolbar
         sx={{
           display: 'flex',
-          alignItems: 'center', // Vertically align items to the center
-          justifyContent: 'space-between', // Distribute items horizontally
+          alignItems: 'center',
+          justifyContent: 'space-between',
           height: '100%',
         }}
       >
-        {/* Left-aligned Logo */}
         <Typography
           variant="h6"
           component="a"
@@ -39,13 +37,13 @@ const AppHeader = () => {
           STSWING
         </Typography>
 
-        {/* Center-aligned Buttons */}
+        
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            flexGrow: 1, // Push the contents to the middle of the header
+            flexGrow: 1,
           }}
         >
           <Button
@@ -55,7 +53,7 @@ const AppHeader = () => {
               textTransform: 'none',
               fontSize: '1rem',
               fontWeight: '500',
-              '&:hover': { color: '#FFD700' }, // Gold hover effect
+              '&:hover': { color: '#FFD700' },
             }}
           >
             Sign In
@@ -65,34 +63,34 @@ const AppHeader = () => {
             href="/register"
             sx={{
               textTransform: 'none',
-              marginLeft: 3, // Add spacing between buttons
+              marginLeft: 3,
               fontSize: '1rem',
               fontWeight: '500',
-              '&:hover': { color: '#FFD700' }, // Gold hover effect
+              '&:hover': { color: '#FFD700' },
             }}
           >
             Register
           </Button>
         </Box>
 
-        {/* Right-aligned Profile section with Avatar and Centered Username */}
+        
         <Box
-          component={Link} // Use Link to enable navigation
-          to="/profile" // Navigate to ProfilePage
+          component={Link}
+          to="/profile"
           sx={{
             display: 'flex',
-            alignItems: 'center', // Ensure Avatar and Username are vertically aligned
-            textDecoration: 'none', // Remove underline for links
+            alignItems: 'center',
+            textDecoration: 'none', 
           }}
         >
           <Avatar
             alt="Profile Picture"
-            src={blankProfile} // Use the imported image
+            src={blankProfile}
             sx={{
               width: 40,
               height: 40,
-              border: '2px solid white', // Add a border to the avatar
-              marginRight: 1, // Space between avatar and username
+              border: '2px solid white',
+              marginRight: 1,
             }}
           />
           <Typography
@@ -100,7 +98,7 @@ const AppHeader = () => {
             sx={{
               color: 'white',
               fontWeight: '500',
-              textAlign: 'center', // Center the text horizontally (in case of multiline text)
+              textAlign: 'center',
             }}
           >
             {username}
