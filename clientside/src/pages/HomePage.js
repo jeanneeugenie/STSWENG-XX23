@@ -55,6 +55,7 @@ const HomePage = ({ isDriver }) => {
     };
     const getRide = (rideDetails) => {
         setBookedRide(rideDetails);
+        console.log(bookedRide)
         //alert(`You have booked the ride to ${rideDetails.destination}`);
     };
     return (
@@ -108,11 +109,23 @@ const HomePage = ({ isDriver }) => {
                         margin="dense"
                     />
                     <Typography variant="h6">
-                        Pick-up Schedule
+                        Pick-up Schedule (in Military Time)
                     </Typography>
                     <TextField
+                        type = "number"
                         fullWidth
-                        label="Pick-up Time"
+                        label="Pick-up Time (Hour)"
+                        variant="outlined"
+                        margin="dense"
+                        sx={{ marginBottom: '1rem' }}
+                    />
+                    <Typography variant="h6">
+                        Pick-up Schedule (minutes)
+                    </Typography>
+                    <TextField
+                        type = "number"
+                        fullWidth
+                        label="Pick-up Time (minute)"
                         variant="outlined"
                         margin="dense"
                         sx={{ marginBottom: '1rem' }}
@@ -206,6 +219,7 @@ const HomePage = ({ isDriver }) => {
                             }}
                         >
                             Book Ride
+                            
                         </Button>
                     </DialogActions>
                 </DialogContent>
