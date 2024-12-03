@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent, TextField, Button, Typography, Link, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, MenuItem, Select, InputLabel } from '@mui/material';
 import useStyle from './styles';
+import axios from 'axios';
 
 const RegisterCard = () => {
   const classes = useStyle();
@@ -14,7 +15,7 @@ const RegisterCard = () => {
   const [isIdValid, setIsIdValid] = useState(true);
   const [isPasswordMatch, setIsPasswordMatch] = useState(true);
   const [userType, setUserType] = useState('rider'); // state for user type (rider or driver)
-
+  const [userName, setName] = useState('')
   // Additional states for driver-specific fields
   const [licenseNumber, setLicenseNumber] = useState('');
   const [licenseValidityYear, setLicenseValidityYear] = useState('');
@@ -66,6 +67,9 @@ const RegisterCard = () => {
     }
   };
 
+  const handleUsernameChange = (event) => {
+    setName(event.target.value)
+  }
   // Handle user type change (rider or driver)
   const handleUserTypeChange = (event) => {
     setUserType(event.target.value);
@@ -94,7 +98,17 @@ const RegisterCard = () => {
   // Handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    const data = {
+      email: email,
+      password: password,
+      idNumber: idNumber,
+      name: userName, // Example name, replace with actual state or form value
+      driverBool: userType === 'driver',
+      licenseNumber: licenseNumber,
+      licenseValidityYear: licenseValidityYear,
+      idType: idType,
+      idFile: idFile,
+    };
     // Check if all fields are valid
     if (isEmailValid && isIdValid && isPasswordMatch && password && email && idNumber && retypePassword) {
       // If user is a driver, check if the driver-specific fields are filled
@@ -114,8 +128,20 @@ const RegisterCard = () => {
         alert('Please upload your ID file');
         return;
       }
-
+      
       // Submit the form if everything is valid
+      axios.post('http://localhost:2805/api/auth/register', data)
+      .then((response) => {
+        console.log('Registration success:', response);
+        // Handle success (e.g., show success message, redirect user)
+        alert('Registration successful!');
+      })
+      .catch((error) => {
+        console.error('Error during registration:', error);
+        // Handle error (e.g., show error message)
+        alert('Registration failed, please try again.');
+      });
+
       console.log('Form submitted!');
     } else {
       // If there are validation errors, prevent form submission
@@ -189,6 +215,8 @@ const RegisterCard = () => {
             label="Enter your name"
             type="text"
             variant="outlined"
+            value={userName}
+            onChange={handleUsernameChange}
             className={classes.textField}
           />
           <FormControl>
