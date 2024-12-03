@@ -24,8 +24,8 @@ const HomePage = ({ isDriver }) => {
     const [bookedRide, setBookedRide] = useState(null);
 
     const tempData = [
-        { id: 1, driver: 'Driver A', rating: 5, pickupPoint: 'GT Building', destination: 'MRR', time: '8:30 AM', carDetails: 'ABC 1234, White Toyota Fortuner', maxPass: 4},
-        { id: 2, driver: 'Driver B', rating: 4, pickupPoint: 'MRR', destination: 'GT Building', time: '10:30 AM', carDetails: 'DEF 5678, Black Isuzu D-Max', maxPass: 3},
+        { id: 1, driver: 'Driver A', rating: 5, pickupPoint: 'GT Building', destination: 'MRR', pickupHour: '12', pickupMinute: '5', carDetails: 'ABC 1234, White Toyota Fortuner', maxPass: 4},
+        { id: 2, driver: 'Driver B', rating: 4, pickupPoint: 'MRR', destination: 'GT Building', pickupHour: '10', pickupMinute: '30', carDetails: 'DEF 5678, Black Isuzu D-Max', maxPass: 3},
     ];
 
     const filterRides = tempData.filter((ride) => {
@@ -65,7 +65,7 @@ const HomePage = ({ isDriver }) => {
             <div style={centeredContainer}>
                 {filterRides.map((ride) => (
                 <RidePostCard key={ride.id} rating = {ride.rating} destination = {ride.destination} pickupPoint = {ride.pickupPoint} 
-                driver = {ride.driver} time = {ride.time} getRide={getRide} carDetails = {ride.carDetails} maxPass = {ride.maxPass}
+                driver = {ride.driver} pickupHour = {ride.pickupHour} pickupMinute = {ride.pickupMinute} getRide={getRide} carDetails = {ride.carDetails} maxPass = {ride.maxPass}
                 openRideDetails={() => openRideDetails(ride)}/>
                 ))}
             </div>
@@ -194,7 +194,7 @@ const HomePage = ({ isDriver }) => {
                         Pick up point: {selectedRide?.pickupPoint}
                     </Typography>
                     <Typography variant="h6" color="gray">
-                        Pick up time: {selectedRide?.time}
+                        Pick up time: {selectedRide?.pickupHour}:{selectedRide?.pickupMinute}
                     </Typography>
                     <Typography variant="h6" color="gray">
                         Driver: {selectedRide?.driver}

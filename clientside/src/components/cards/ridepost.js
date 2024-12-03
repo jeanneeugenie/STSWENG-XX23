@@ -1,12 +1,12 @@
 import React from 'react';
-import { Card, CardContent, Button, Typography, Rating } from '@mui/material';
+import { Card, CardContent, Typography, Rating } from '@mui/material';
 
 import useStyle from './styles'
 
-const RidePostCard = ({ destination, pickupPoint, driver, time, rating, openRideDetails}) => {
+const RidePostCard = ({ destination, pickupPoint, driver, pickupHour, pickupMinute, rating, openRideDetails}) => {
     const classes = useStyle();
   return (
-    <Card className={classes.card} sx = {{width: '600px', margin: '10px', cursor: 'pointer'}} onClick={()=> openRideDetails({ destination, pickupPoint, driver, time, rating })}>
+    <Card className={classes.card} sx = {{width: '600px', margin: '10px', cursor: 'pointer'}} onClick={()=> openRideDetails({ destination, pickupPoint, driver, pickupHour, pickupMinute, rating })}>
       <CardContent>
        <Rating
         name="driver-rating"
@@ -25,7 +25,9 @@ const RidePostCard = ({ destination, pickupPoint, driver, time, rating, openRide
         {driver || 'Driver Name'}
         </Typography>
         <Typography variant="h6" component="div" className={classes.greyH6} gutterBottom>
-        {time || 'Schedule'}
+        {pickupHour && pickupMinute
+        ? `${pickupHour.toString().padStart(2, '0')}:${pickupMinute.toString().padStart(2, '0')}`
+        : 'Schedule'}
         </Typography>
         
       </CardContent>
