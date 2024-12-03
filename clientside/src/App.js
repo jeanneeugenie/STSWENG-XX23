@@ -6,7 +6,7 @@ import AppHeader from './components/header/header';
 import HomePage from './pages/HomePage';
 import './App.css';
 const App = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(true); // changes based on log in state
+    const [isLoggedIn, setIsLoggedIn] = useState(false); // changes based on log in state
 
     return (
         <Router> 

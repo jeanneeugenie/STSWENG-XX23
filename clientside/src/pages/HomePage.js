@@ -24,8 +24,8 @@ const HomePage = ({ isDriver }) => {
     const [bookedRide, setBookedRide] = useState(null);
 
     const tempData = [
-        { id: 1, driver: 'Driver A', rating: 5, pickupPoint: 'GT Building', destination: 'MRR', pickupHour: '12', pickupMinute: '5', carDetails: 'ABC 1234, White Toyota Fortuner', maxPass: 4},
-        { id: 2, driver: 'Driver B', rating: 4, pickupPoint: 'MRR', destination: 'GT Building', pickupHour: '10', pickupMinute: '30', carDetails: 'DEF 5678, Black Isuzu D-Max', maxPass: 3},
+        { id: 1, driver: 'Driver A', rating: 5, pickupPoint: 'GT Building', destination: 'Paseo Outlets', pickupHour: '12', pickupMinute: '5', carDetails: 'ABC 1234, White Toyota Fortuner', maxPass: 4},
+        { id: 2, driver: 'Driver B', rating: 4, pickupPoint: 'MRR', destination: 'Vista Mall Sta. Rosa', pickupHour: '10', pickupMinute: '30', carDetails: 'DEF 5678, Black Isuzu D-Max', maxPass: 3},
     ];
 
     const filterRides = tempData.filter((ride) => {
