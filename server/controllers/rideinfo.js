@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import rideInfoModel from "../models/rideInfoModel.js"
 import driverModel from "../models/driverModel.js"
+import completeRideModel from "../models/completeRideModel.js";
 import jwt from "jsonwebtoken"
 
 const verifyToken = (token, email) => {
@@ -143,13 +144,26 @@ const completeRide = async (req, res) => {
             return res.status(400).json({ message: "You do not own this ride"})
         }
 
-        ride = await rideInfoModel.findByIdAndUpdate(
+        if(ride.currentPassengers.length < 1){
+            return res.status(400).json({ message: "No passenger booked this ride"})
+        }
+
+        const updatedRide = await rideInfoModel.findByIdAndUpdate(
             _id, 
             { $set: { currentPassengers: [], isFull: false } },
             { new: true }
         );
 
-        res.status(200).json({ message: "Ride completed successfully", ride });
+        const completed = await completeRideModel.create({
+            driverEmail: ride.driverEmail,
+            driver: ride.driver,
+            dropoff: ride.dropoff,
+            pickup: ride.pickupPoint,
+            passengers: ride.currentPassengers,
+            completionDate: ride.updatedAt
+        })
+
+        res.status(200).json({ message: "Ride completed successfully", completed });
     } catch (error) {
         res.status(500).json({ message: "Error completing ride", error: error.message });
     }
