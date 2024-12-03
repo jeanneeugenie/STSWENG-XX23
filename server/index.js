@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 
 //route imports
 import authRoutes from "./routes/authRoute.js"
+import rideRoutes from "./routes/rideRoute.js"
 
 dotenv.config();
 
@@ -29,7 +30,8 @@ app.get("/", (req, res) => {
     res.json({mssg:"Welcome to STSWING"})
 });
 
-app.use('/api/auth',authRoutes)
+app.use('/api/auth', authRoutes)
+app.use('/api/ride', rideRoutes)
 
 
 //connect to mongodb then listen to requests

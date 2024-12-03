@@ -1,4 +1,5 @@
 import userModel from "../models/userModel.js"
+import driverModel from "../models/driverModel.js"
 
 const login = async(req, res) => {
     const {email, password} =  req.body
@@ -30,6 +31,13 @@ const register = async (req, res) => {
             name,
             driverBool
         });
+
+        if(driverBool){
+            const driver = await driverModel.create({
+                email
+            })
+        }
+
         res.status(201).json({ message: "User registered successfully", user });
     } catch (error) {
         res.status(400).json({ error: error.message });
