@@ -86,8 +86,17 @@ const rateDriver = async (req, res) => {
                     reviewCount: newCount
                 },
                 { new: true });
-            const completedRide = completeRideModel.findByIdAndUpdate()
-            return res.status(200).json({message: "Rating successful", driver})
+            const cR = await completeRideModel.findByIdAndUpdate(
+                _id,
+                { $pull: { passengers: email } },
+                { new: true }
+            );
+
+            if(cR.passengers && cR.passengers.length === 0){
+                const v = await completeRideModel.findByIdAndDelete(_id)
+            }
+
+            return res.status(200).json({message: "Rating successful", cR})
         }else{
             return res.status(404).json({message: "There is no such driver"});
         }
