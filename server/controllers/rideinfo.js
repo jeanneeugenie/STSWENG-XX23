@@ -4,11 +4,12 @@ import driverModel from "../models/driverModel.js"
 import jwt from "jsonwebtoken"
 
 const verifyToken = (token, email) => {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (decoded.email !== email) {
-        return false;
-    }
-    return true;
+    if(token){
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        if (decoded.email !== email) {
+            return false;
+        } else return true;
+    } else return false;
 }
 
 const postRide = async (req, res) => {
@@ -22,7 +23,7 @@ const postRide = async (req, res) => {
     if(!user){
         return res.status(404).json({error: "User is not a driver"})
     }
-    
+
     const driverEmail = email;
     const driver = user.name;
 
@@ -47,9 +48,22 @@ const postRide = async (req, res) => {
 }
 
 const getAllRides = async (req, res) => {
+    const token = req.cookies.token;
+    const email = req.cookies.email;
+    var allRides;
     try{
-        const allRides = await rideInfoModel.find({isFull: false}).sort({createdAt: -1});
-        return res.status(200).json()
+        if(verifyToken(token, email)){
+            const driver = await driverModel.findOne({email});
+            if(driver){
+                allRides = await rideInfoModel
+                .find({ isFull: false, driverEmail: { $ne: driver.email } })
+                .sort({ createdAt: -1 });
+                return res.status(200).json({allRides})
+            }
+        }
+        
+        allRides = await rideInfoModel.find({isFull: false}).sort({createdAt: -1});
+        return res.status(200).json({allRides})
     } catch (error) {
         return res.status(400).json({ error: error.message });
     }
@@ -103,4 +117,4 @@ const rateDriver = async (req, res) => {
 
 }
 
-export {postRide}
+export {postRide, getAllRides}
