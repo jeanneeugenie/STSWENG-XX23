@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Grid, FormControl, InputLabel, Select, MenuItem, Button } from '@mui/material';
+import { Box, Grid, TextField, FormControl, InputLabel, Select, MenuItem, Button } from '@mui/material';
 
 
 const FilterSection = ({ onApplyFilter }) => {
@@ -7,10 +7,11 @@ const FilterSection = ({ onApplyFilter }) => {
   const [driver, setDriver] = useState('');
   const [rating, setRating] = useState('');
   const [destination, setDestination] = useState('');
-  const [time, setTime] = useState('');
+  const [startHour, setStartHour] = useState('');
+  const [endHour, setEndHour] = useState('');
 
   const handleApplyFilter = () => {
-    const filters = { driver, rating, destination, time };
+    const filters = { driver, rating, destination, startHour, endHour };
     onApplyFilter(filters);
   };
 
@@ -61,18 +62,26 @@ const FilterSection = ({ onApplyFilter }) => {
           </FormControl>
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
-          <FormControl fullWidth>
-            <InputLabel sx={{ color: '#3A5940' }}>Time</InputLabel>
-            <Select
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
-              sx={{ backgroundColor: 'white', color: '#3A5940' }}
-            >
-              <MenuItem value="">All</MenuItem>
-              <MenuItem value="830">8:30 AM </MenuItem>
-              <MenuItem value="1030">10:30 AM</MenuItem>
-            </Select>
-          </FormControl>
+          <TextField
+            type="number"
+            label="Ride Pickup Hour (Earliest)"
+            value={startHour}
+            onChange={(e) => setStartHour(e.target.value)}
+            sx={{ backgroundColor: 'white', color: '#3A5940' }}
+            fullWidth
+            InputProps={{ inputProps: { min: 0, max: 23 } }}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <TextField
+            type="number"
+            label="Ride Pickup Hour (Latest)"
+            value={endHour}
+            onChange={(e) => setEndHour(e.target.value)}
+            sx={{ backgroundColor: 'white', color: '#3A5940' }}
+            fullWidth
+            InputProps={{ inputProps: { min: 0, max: 23 } }}
+          />
         </Grid>
       </Grid>
       <Box sx={{ textAlign: 'center', marginTop: 2 }}>

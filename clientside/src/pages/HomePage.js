@@ -34,7 +34,8 @@ const HomePage = ({ isDriver }) => {
             (!filters.rating || ride.rating.toString() === filters.rating) &&
             (!filters.pickupPoint || ride.pickupPoint === filters.pickupPoint) &&
             (!filters.destination || ride.destination === filters.destination) &&
-             (!filters.time || ride.time === filters.time)
+            (!filters.startHour || ride.pickupHour >= parseInt(filters.startHour, 10)) &&
+            (!filters.endHour || ride.pickupHour <= parseInt(filters.endHour, 10))
         );
     });
     const openDialog = () => {
