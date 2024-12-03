@@ -1,17 +1,25 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Avatar} from '@mui/material';
 import { Link } from 'react-router-dom';
 
-const AppHeader = () => {
+const AppHeader = ({isLoggedIn}) => {
   //const classes = useStyle();
   return (
-    <AppBar position="static">
+    <AppBar style={{ backgroundColor: '#3A5940' }} position="static">
       <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          STSWING
-        </Typography>
-        <Button color="inherit" component={Link} to="/signin">Sign In</Button>
-        <Button color="inherit" component={Link} to="/register">Register</Button>
+        <Button color="inherit" component={Link} to="/homepage">STSWING</Button>
+
+        { isLoggedIn ? (
+          <div style={{marginLeft: 'auto', display: 'flex', alignItems: 'flex-end'}}>
+            <Avatar alt="User Pfp" src="./components/imgs/tempPfp.png" />
+            <Typography variant="h6"> User Name </Typography>
+          </div>
+        ) : (
+        <div style={{ margineLeft: 'auto', display: 'flex', alignItems: 'flex-end'}}>
+          <Button color="inherit" component={Link} to="/signin">Sign In</Button>
+          <Button color="inherit" component={Link} to="/register">Register</Button>
+        </div>
+        )}
       </Toolbar>
     </AppBar>
   );

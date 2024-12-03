@@ -1,6 +1,5 @@
 import React from 'react';
 import SignInCard from '../components/cards/signin';
-import AppHeader from '../components/header/header'
 const SignInPage = () => {
     const centeredContainer = {
         display: 'flex',
