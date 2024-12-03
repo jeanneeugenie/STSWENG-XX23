@@ -8,12 +8,15 @@ import HomePage from './pages/HomePage';
 import './App.css';
 const App = () => {
   
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // changes based on log in state
-
+    const [isLoggedIn, setIsLoggedIn] = useState(); // changes based on log in state
+    const handleLogout = () => {
+        setIsLoggedIn(false);
+        alert('You have been logged out!');
+      };
     return (
         <Router> 
         <div>
-            <AppHeader isLoggedIn={isLoggedIn}/>
+            <AppHeader isLoggedIn={isLoggedIn} onLogout={handleLogout}/>
             <Routes>
             <Route path="/" element={<Navigate to="/homepage" replace />}/> 
                 <Route path="/homepage" element={<HomePage isDriver={true} />} />
