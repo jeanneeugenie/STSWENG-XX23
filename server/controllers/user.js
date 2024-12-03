@@ -98,6 +98,7 @@ const rateDriver = async (req, res) => {
 
             return res.status(200).json({message: "Rating successful", cR})
         }else{
+            const v = await completeRideModel.findByIdAndDelete(_id)
             return res.status(404).json({message: "There is no such driver"});
         }
     } catch (error) {
@@ -108,13 +109,52 @@ const rateDriver = async (req, res) => {
 const editProfile = async (req, res) => {
     const token = req.cookies.token;
     const email = req.cookies.email;
-    const { _id } = req.body;
+    const { name, driverBool, DepCourse, usualRoute, usualSched } = req.body;
     
     if(!verifyToken(token, email)){
-        return res.status(400).json({message: "User is not logged in"})
+        return res.status(400).json({message: "User is not logged in"});
     }
 
+    try {
+        const user = await userModel.findOne({email});
+        const oldDB = user.driverBool;
+        const newUser = await userModel.findOneAndUpdate(
+            { email },
+            { name, driverBool, DepCourse, usualRoute, usualSched },
+            { new: true }
+        );
+        const newDB = newUser.driverBool;
 
-}
+        if (oldDB === true && newDB === false) {
+            await rideInfoModel.deleteMany({ driverEmail: email });
+            await driverModel.findOneAndUpdate({ email }, {name: newUser.name});
+        } else if (oldDB === false && newDB === true) {
+            let driver = await driverModel.findOne({ email });
+            if (!driver) {
+                driver = await driverModel.create({
+                    email,
+                    name: newUser.name,
+                    driverRating: 0,
+                    reviewCount: 0, 
+                });
+            }
+        } else if (oldDB && newDB) {
+            await driverModel.findOneAndUpdate(
+                { email },
+                { name: newUser.name },
+                { new: true }
+            );
+            await rideInfoModel.updateMany(
+                { driverEmail: email },
+                { $set: { driver: newUser.name } }
+            );
+        }
+
+        return res.status(200).json({ message: "Profile updated successfully", user: newUser });
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+};
+
 
 export {getDriverRides, getPastRides, rateDriver, editProfile};

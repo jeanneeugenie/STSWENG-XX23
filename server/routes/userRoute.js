@@ -7,6 +7,6 @@ const router = express.Router()
 router.get("/getDriverRides", getDriverRides)
 router.get("/getPastRides", getPastRides)
 router.patch("/rateDriver", rateDriver)
-router.put("/editProfile", editProfile)
+router.patch("/editProfile", editProfile)
 
 export default router
