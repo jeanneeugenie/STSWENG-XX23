@@ -26,7 +26,7 @@ const login = async(req, res) => {
             { httpOnly: true, secure: true, maxAge: 7 * 24 * 60 * 60 * 1000 }
         );
         res.cookie(
-            'userEmail', email, 
+            'email', email, 
             { httpOnly: false, secure: true, maxAge: 7 * 24 * 60 * 60 * 1000 }
         );
 
@@ -50,7 +50,8 @@ const register = async (req, res) => {
 
         if(driverBool){
             const driver = await driverModel.create({
-                email
+                email,
+                name
             })
         }
 
@@ -61,7 +62,7 @@ const register = async (req, res) => {
             { httpOnly: true, secure: true, maxAge: 7 * 24 * 60 * 60 * 1000 }
         );
         res.cookie(
-            'userEmail', email, 
+            'email', email, 
             { httpOnly: false, secure: true, maxAge: 7 * 24 * 60 * 60 * 1000 }
         );
 
@@ -71,9 +72,9 @@ const register = async (req, res) => {
     }
 };
 
-const logout = (req, res) => {
+const logout = (res) => {
     res.clearCookie('token', { httpOnly: true, secure: true });
-    res.clearCookie('userEmail', { httpOnly: false, secure: true });
+    res.clearCookie('email', { httpOnly: false, secure: true });
     res.status(200).json({ message: "Logged out successfully" });
 }
 

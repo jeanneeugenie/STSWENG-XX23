@@ -1,16 +1,43 @@
 import mongoose from "mongoose";
 import rideInfoModel from "../models/rideInfoModel.js"
 import driverModel from "../models/driverModel.js"
+import jwt from "jsonwebtoken"
+
+const verifyToken = (token, email) => {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (decoded.email !== email) {
+        return false;
+    }
+    return true;
+}
 
 const postRide = async (req, res) => {
-    const {dropoff, pickupPoint, pickupTime, vehicle} =  req.body
+    const token = req.cookies.token;
+    const email = req.cookies.email;
+    if(!verifyToken(token, email)){
+        return res.status(400).json({message: "User is not logged in"})
+    }
+
+    const user = await driverModel.findOne({email});
+    if(!user){
+        return res.status(404).json({error: "User is not a driver"})
+    }
+    
+    const driverEmail = email;
+    const driver = user.name;
+
+    const {dropoff, pickupPoint, pickupTimeHour, pickupTimeMinute, vehicle, maxPassengers} =  req.body
 
     try{
         const ride = await rideInfoModel.create({
+            driverEmail,
             dropoff,
             pickupPoint,
-            pickupTime,
-            vehicle
+            pickupTimeHour,
+            pickupTimeMinute,
+            driver,
+            vehicle,
+            maxPassengers
         });
 
         return res.status(200).json({message: "Ride Posted Successfully", ride})
@@ -76,4 +103,4 @@ const rateDriver = async (req, res) => {
 
 }
 
-export {postRide, getAllRides, completeRide, deleteRide}
+export {postRide}

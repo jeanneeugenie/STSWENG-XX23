@@ -14,6 +14,10 @@ const driverSchema = new Schema({
             message: props => `${props.value} is not a valid DLSU email address!`
         }
     },
+    name:{
+        type: String,
+        required: true
+    },
     driverRating: {
         type: Number,
         default: 0

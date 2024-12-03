@@ -21,7 +21,14 @@ const userSchema = new Schema({
     },
     idNumber: {
         type: Number,
-        required: true
+        required: true, 
+        validate: {
+            validator: function (value) {
+              // Check if the number has exactly 8 digits
+              return /^\d{8}$/.test(value.toString());
+            },
+            message: (props) => `${props.value} is not a valid ID number! It must be exactly 8 digits.`,
+        }
     },
     name: {
         type: String,

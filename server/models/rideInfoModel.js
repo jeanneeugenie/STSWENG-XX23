@@ -15,9 +15,25 @@ const rideinfoSchema = new Schema({
         type: String,
         required: true
     },
-    pickupTime: {
-        type: Date,
-        required: true
+    pickupTimeHour: {
+        type: Number,
+        required: true,
+        validate: {
+            validator: function (value) {
+              return Number.isInteger(value) && value >= 0 && value <= 24;
+            },
+            message: (props) => `${props.value} is not a valid hour! Please provide a value between 0 and 24.`,
+        }
+    },
+    pickupTimeMinute: {
+        type: Number,
+        required: true,
+        validate: {
+            validator: function (value) {
+              return Number.isInteger(value) && value >= 0 && value <= 59;
+            },
+            message: (props) => `${props.value} is not a valid minute! Please provide a value between 0 and 59.`,
+        }
     },
     driver: {
         type: String,
