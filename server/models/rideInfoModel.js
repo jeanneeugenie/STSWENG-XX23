@@ -1,9 +1,9 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
 const rideinfoSchema = new Schema({
-    driverEmail:{
+    driverEmail: {
         type: String,
         required: true
     },
@@ -20,7 +20,7 @@ const rideinfoSchema = new Schema({
         required: true,
         validate: {
             validator: function (value) {
-              return Number.isInteger(value) && value >= 0 && value <= 24;
+                return Number.isInteger(value) && value >= 0 && value <= 24;
             },
             message: (props) => `${props.value} is not a valid hour! Please provide a value between 0 and 24.`,
         }
@@ -30,7 +30,7 @@ const rideinfoSchema = new Schema({
         required: true,
         validate: {
             validator: function (value) {
-              return Number.isInteger(value) && value >= 0 && value <= 59;
+                return Number.isInteger(value) && value >= 0 && value <= 59;
             },
             message: (props) => `${props.value} is not a valid minute! Please provide a value between 0 and 59.`,
         }
@@ -48,7 +48,6 @@ const rideinfoSchema = new Schema({
         required: true,
         validate: {
             validator: function (value) {
-                // Ensure the value is a positive integer
                 return Number.isInteger(value) && value > 0;
             },
             message: props => `${props.value} is not a valid positive integer!`
@@ -58,26 +57,16 @@ const rideinfoSchema = new Schema({
         type: [String],
         validate: {
             validator: function (v) {
-              // Use this.maxPassengers to access maxPassengers within the validator
-              return v.length <= this.maxPassengers;
+                return v.length <= this.maxPassengers;
             },
-            message: (props) =>
-              `Cannot have more than ${props.instance.maxPassengers} passengers!`,
-          }
-    }, isFull: {
+            message: (props) => `Cannot have more than ${props.instance.maxPassengers} passengers!`,
+        }
+    },
+    isFull: {
         type: Boolean,
         default: false,
     }
-}, {timestamps: true})
+}, {timestamps: true});
 
-rideinfoSchema.pre('save', function (next) {
-    // Check if the number of current passengers is equal to max passengers
-    if (this.currentPassengers.length === this.maxPassengers) {
-      this.isFull = true;
-    } else {
-      this.isFull = false;
-    }
-    next();
-});
 
 export default mongoose.model('RideInfo', rideinfoSchema);

@@ -17,11 +17,6 @@ const app = express();
 app.use(express.json())
 app.use(cookieParser(process.env.COOKIE_SECRET))
 
-app.use((req, res, next) => {
-    console.log(req.path, req.method); // Logs the request path and method
-    next(); // Passes control to the next middleware
-});
-
 // limit images to 30mb
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));

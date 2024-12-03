@@ -61,7 +61,7 @@ const getAllRides = async (req, res) => {
                 return res.status(200).json({allRides})
             }
         }
-        
+
         allRides = await rideInfoModel.find({isFull: false}).sort({createdAt: -1});
         return res.status(200).json({allRides})
     } catch (error) {
@@ -69,52 +69,121 @@ const getAllRides = async (req, res) => {
     }
 }
 
-const completeRide = async (req, res) => {
-    const id = req.params
+const bookRide = async (req, res) => {
+    const token = req.cookies.token;
+    const email = req.cookies.email;
+    const { _id } = req.body;
+    
+    if(!verifyToken(token, email)){
+        return res.status(400).json({message: "User is not logged in"})
+    }
 
-    try{
-        if(!mongoose.Types.ObjectId.isValid(id)){
-            res.status(404).json({error: "Invalid Ride"})
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+        return res.status(400).json({ message: "Invalid Ride ID format" });
+    }
+
+    try {
+        var ride = await rideInfoModel.findById(_id);
+
+        if (!ride) {
+            return res.status(404).json({ message: "Ride not found" });
         }
-    
-        const ride = await rideInfoModel.findOneAndUpdate({_id: id}, {currentPassengers: []})
-    
-        if(!ride){
-            res.status(400).json({error: "Invalid Ride"})
+
+        if(ride.isFull){
+            return res.status(409).json({message: "Ride is full"})
         }
-    
-        res.status(200).json(ride)
+
+        if (ride.currentPassengers.includes(email)) {
+            return res.status(400).json({ message: "You are already booked for this ride" });
+        }
+
+        if(ride.currentPassengers.length+1 == ride.maxPassengers){
+            ride = await rideInfoModel.findByIdAndUpdate(
+                id,
+                { 
+                    isFull: true
+                },
+                { new: true }
+            );
+        }
+        
+        ride = await rideInfoModel.findByIdAndUpdate(
+            _id, 
+            { $push: { currentPassengers: email } },
+            { new: true, runValidators: true } 
+        );
+
+        res.status(200).json({ message: "Ride booked successfully", ride });
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ message: "Error booking ride", error: error.message });
+    }
+}
+
+const completeRide = async (req, res) => {
+    const token = req.cookies.token;
+    const email = req.cookies.email;
+    const { _id } = req.body;
+    
+    if(!verifyToken(token, email)){
+        return res.status(400).json({message: "User is not logged in"})
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+        return res.status(400).json({ message: "Invalid Ride ID format" });
+    }
+
+    try {
+        var ride = await rideInfoModel.findById(_id);
+
+        if (!ride) {
+            return res.status(404).json({ message: "Ride not found" });
+        }
+
+        if(ride.driverEmail != email){
+            return res.status(400).json({ message: "You do not own this ride"})
+        }
+
+        ride = await rideInfoModel.findByIdAndUpdate(
+            _id, 
+            { $set: { currentPassengers: [], isFull: false } },
+            { new: true }
+        );
+
+        res.status(200).json({ message: "Ride completed successfully", ride });
+    } catch (error) {
+        res.status(500).json({ message: "Error completing ride", error: error.message });
     }
 }
 
 const deleteRide = async (req, res) => {
-    const id = req.params
+    const token = req.cookies.token;
+    const email = req.cookies.email;
+    const { _id } = req.body;
+    
+    if(!verifyToken(token, email)){
+        return res.status(400).json({message: "User is not logged in"})
+    }
 
-    try{
-        if(!mongoose.Types.ObjectId.isValid(id)){
-            res.status(404).json({error: "Invalid Ride"})
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+        return res.status(400).json({ message: "Invalid Ride ID format" });
+    }
+
+    try {
+        var ride = await rideInfoModel.findById(_id);
+
+        if (!ride) {
+            return res.status(404).json({ message: "Ride not found" });
         }
-    
-        const ride = await rideInfoModel.findOneAndDelete({_id: id})
-    
-        if(!ride){
-            res.status(400).json({error: "Invalid Ride"})
+
+        if(ride.driverEmail != email){
+            return res.status(400).json({ message: "You do not own this ride"})
         }
-    
-        res.status(200).json(ride)
+
+        ride = await rideInfoModel.findByIdAndDelete(_id);
+        res.status(200).json({ message: "Ride deleted successfully", ride });
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ message: "Error deleting ride", error: error.message });
     }
 }
 
-const bookRide = async (req, res) => {
-    
-}
-
-const rateDriver = async (req, res) => {
-
-}
-
-export {postRide, getAllRides}
+export {postRide, getAllRides, bookRide, completeRide, deleteRide}
