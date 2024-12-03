@@ -100,7 +100,7 @@ const bookRide = async (req, res) => {
 
         if(ride.currentPassengers.length+1 == ride.maxPassengers){
             ride = await rideInfoModel.findByIdAndUpdate(
-                id,
+                _id,
                 { 
                     isFull: true
                 },
