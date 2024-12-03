@@ -1,6 +1,12 @@
 body {
-    background-image: url('./components/imgs/dlsumrr.jpg');
+    margin: 0; /* Remove default margins */
+    padding: 0; /* Remove default padding */
+    background-image: 
+        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), /* Black overlay */
+        url('./components/imgs/dlsumrr2.jpg'); /* Actual background image */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    height: 100vh; /* Ensure the background spans the viewport height */
+    width: 100vw; /* Ensure the background spans the viewport width */
 }
