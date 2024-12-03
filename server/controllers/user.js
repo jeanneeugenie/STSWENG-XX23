@@ -13,6 +13,22 @@ const verifyToken = (token, email) => {
     } else return false;
 }
 
+const getUserProfile = async (req, res) => {
+    const token = req.cookies.token;
+    const email = req.cookies.email;
+
+    if(!verifyToken(token, email)){
+        return res.status(400).json({message: "User is not logged in"})
+    }
+
+    try {
+        const user = await userModel.findOne({email});
+        return res.status(200).json({user})
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+}
+
 const getDriverRides = async (req, res) => {
     const token = req.cookies.token;
     const email = req.cookies.email;
@@ -157,4 +173,4 @@ const editProfile = async (req, res) => {
 };
 
 
-export {getDriverRides, getPastRides, rateDriver, editProfile};
+export {getUserProfile, getDriverRides, getPastRides, rateDriver, editProfile};

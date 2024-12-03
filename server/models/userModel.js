@@ -22,6 +22,7 @@ const userSchema = new Schema({
     idNumber: {
         type: Number,
         required: true, 
+        unique: true,
         validate: {
             validator: function (value) {
               // Check if the number has exactly 8 digits
