@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Card, CardContent, TextField, Button, Typography, Link } from '@mui/material';
 import useStyle from './styles';
 import axios from 'axios';
-
-const SignInCard = () => {
+import { useNavigate } from 'react-router-dom';
+const SignInCard = ({ handleLogIn }) => {
+    const navigate = useNavigate();
     const classes = useStyle();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -11,9 +12,12 @@ const SignInCard = () => {
 
     const handleLogin = async (e) => {
       e.preventDefault();
+      setError(null);
       try {
-          const response = await axios.post('/api/auth/login', { email, password }, { withCredentials: true });
+          const response = await axios.post('http://localhost:2805/api/auth/login', { email, password });
           alert(response.data.message);
+          navigate('/');
+          handleLogIn(email);
       } catch (err) {
           setError(err.response?.data?.error || 'Login failed');
       }

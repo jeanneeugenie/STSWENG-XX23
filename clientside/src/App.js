@@ -9,19 +9,25 @@ import './App.css';
 const App = () => {
   
     const [isLoggedIn, setIsLoggedIn] = useState(); // changes based on log in state
+    const [userEmail, setUserEmail] = useState('');
+    const [isDriver, setDriver] = useState();
     const handleLogout = () => {
         setIsLoggedIn(false);
         alert('You have been logged out!');
-      };
+    };
+    const handleLogIn = (name) => {
+        setIsLoggedIn(true);
+        setUserEmail(userEmail);
+    };
     return (
         <Router> 
         <div>
-            <AppHeader isLoggedIn={isLoggedIn} onLogout={handleLogout}/>
+            <AppHeader isLoggedIn={isLoggedIn} onLogout={handleLogout} userEmail={userEmail}/>
             <Routes>
             <Route path="/" element={<Navigate to="/homepage" replace />}/> 
-                <Route path="/homepage" element={<HomePage isDriver={true} />} />
-                <Route path="/signin" element={<SignInPage />} />
-                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/homepage" element={<HomePage isDriver={isDriver} />} />
+                <Route path="/signin" element={<SignInPage handleLogIn={handleLogIn}/>} />
+                <Route path="/register" element={<RegisterPage handleLogIn={handleLogIn}/>} />
                 <Route path="/profile" element={<ProfilePage />} />
             </Routes>
         </div>

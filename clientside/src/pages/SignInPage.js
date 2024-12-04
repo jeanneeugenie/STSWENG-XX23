@@ -1,6 +1,6 @@
 import React from 'react';
 import SignInCard from '../components/cards/signin';
-const SignInPage = () => {
+const SignInPage = ({handleLogIn}) => {
     const centeredContainer = {
         display: 'flex',
         flexDirection: 'column',
@@ -11,7 +11,7 @@ const SignInPage = () => {
     return (
         <div>
             <div style={centeredContainer}>
-            <SignInCard />
+            <SignInCard handleLogIn={handleLogIn}/>
             </div>
         </div>
     );

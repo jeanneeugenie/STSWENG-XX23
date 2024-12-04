@@ -4,7 +4,7 @@ import useStyle from './styles';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const RegisterCard = () => {
+const RegisterCard = ( {handleLogIn}) => {
   const classes = useStyle();
   const navigate = useNavigate();
 
@@ -133,13 +133,12 @@ const RegisterCard = () => {
 
         alert('Registration successful!');
         navigate('/');
+        handleLogIn(email);
       })
       .catch((error) => {
         console.error('Error during registration:', error);
         alert('Registration failed, please try again.');
       });
-
-      console.log('Form submitted!');
     } else {
 
       console.log('Please fix the errors in the form');

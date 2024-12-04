@@ -1,6 +1,6 @@
 import React from 'react';
 import RegisterCard from '../components/cards/register';
-const RegisterPage = () => {
+const RegisterPage = ( {handleLogIn}) => {
     const centeredContainer = {
         display: 'flex',
         flexDirection: 'column',
@@ -11,7 +11,7 @@ const RegisterPage = () => {
     return (
         <div>
             <div style={centeredContainer}>
-            <RegisterCard />
+            <RegisterCard handleLogIn={handleLogIn}/>
             </div>
         </div>
     );
