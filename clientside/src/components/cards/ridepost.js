@@ -3,10 +3,11 @@ import { Card, CardContent, Typography, Rating } from '@mui/material';
 
 import useStyle from './styles'
 
-const RidePostCard = ({ destination, pickupPoint, driver, pickupHour, pickupMinute, rating, openRideDetails}) => {
+const RidePostCard = ({ destination, pickupPoint, driver, pickupTimeHour, pickupTimeMinute, rating, openRideDetails}) => {
     const classes = useStyle();
+    console.log({ destination, pickupPoint, driver, pickupTimeHour, pickupTimeMinute, rating });
   return (
-    <Card className={classes.card} sx = {{width: '600px', margin: '10px', cursor: 'pointer'}} onClick={()=> openRideDetails({ destination, pickupPoint, driver, pickupHour, pickupMinute, rating })}>
+    <Card className={classes.card} sx = {{width: '600px', margin: '10px', cursor: 'pointer'}} onClick={()=> openRideDetails({ destination, pickupPoint, driver, pickupTimeHour, pickupTimeMinute, rating })}>
       <CardContent>
        <Rating
         name="driver-rating"
@@ -25,8 +26,8 @@ const RidePostCard = ({ destination, pickupPoint, driver, pickupHour, pickupMinu
         {driver || 'Driver Name'}
         </Typography>
         <Typography variant="h6" component="div" className={classes.greyH6} gutterBottom>
-        {pickupHour && pickupMinute
-        ? `${pickupHour.toString().padStart(2, '0')}:${pickupMinute.toString().padStart(2, '0')}`
+        {(pickupTimeHour !== undefined && pickupTimeMinute !== undefined)
+        ? `${pickupTimeHour.toString().padStart(2, '0')}:${pickupTimeMinute.toString().padStart(2, '0')}`
         : 'Schedule'}
         </Typography>
         

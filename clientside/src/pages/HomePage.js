@@ -48,8 +48,8 @@ const HomePage = ({ isDriver }) => {
             (!filters.rating || ride.rating.toString() === filters.rating) &&
             (!filters.pickupPoint || ride.pickupPoint === filters.pickupPoint) &&
             (!filters.destination || ride.destination === filters.destination) &&
-            (!filters.startHour || ride.pickupHour >= parseInt(filters.startHour, 10)) &&
-            (!filters.endHour || ride.pickupHour <= parseInt(filters.endHour, 10))
+            (!filters.startHour || ride.pickupTimeHour >= parseInt(filters.startHour, 10)) &&
+            (!filters.endHour || ride.pickupTimeHour <= parseInt(filters.endHour, 10))
         );
     });
 
@@ -80,7 +80,7 @@ const HomePage = ({ isDriver }) => {
     const handleMinuteChange = (e) => {
         const value = e.target.value;
         if (value >= 0 && value <= 59) {
-            setFilters({ ...filters, pickupMinute: value });
+            setFilters({ ...filters, pickupTimeMinute: value });
         }
     };
 
@@ -95,11 +95,11 @@ const HomePage = ({ isDriver }) => {
                         destination={ride.dropoff} 
                         pickupPoint={ride.pickupPoint} 
                         driver={ride.driver} 
-                        pickupHour={ride.pickupTimeHour} 
-                        pickupMinute={ride.pickupTimeMinute} 
+                        pickupTimeHour={ride.pickupTimeHour} 
+                        pickupTimeMinute={ride.pickupTimeMinute} 
                         getRide={getRide} 
                         carDetails={ride.vehicle} 
-                        maxPass={ride.maxPass}
+                        maxPass={ride.maxPassengers}
                         openRideDetails={() => openRideDetails(ride)}
                     />
                 ))}
@@ -162,8 +162,8 @@ const HomePage = ({ isDriver }) => {
                     <FormControl fullWidth margin="dense">
                         <InputLabel>Pick-up Hour</InputLabel>
                         <Select
-                            value={filters.pickupHour || ''}
-                            onChange={(e) => setFilters({ ...filters, pickupHour: e.target.value })}
+                            value={filters.pickupTimeHour || ''}
+                            onChange={(e) => setFilters({ ...filters, pickupTimeHour: e.target.value })}
                             label="Pick-up Hour"
                         >
                             {[...Array(24).keys()].map((hour) => (
@@ -183,7 +183,7 @@ const HomePage = ({ isDriver }) => {
                         label="Pick-up Time (minute)"
                         variant="outlined"
                         margin="dense"
-                        value={filters.pickupMinute || ''}
+                        value={filters.pickupTimeMinute || ''}
                         onChange={handleMinuteChange}
                         inputProps={{ min: 0, max: 59 }}
                     />
@@ -248,13 +248,16 @@ const HomePage = ({ isDriver }) => {
                         Pick up point: {selectedRide?.pickupPoint}
                     </Typography>
                     <Typography variant="h6" color="gray">
-                        Pick up time: {selectedRide?.pickupHour}:{selectedRide?.pickupMinute}
+                        Pick up time: 
+                    {(selectedRide?.pickupTimeHour !== undefined && selectedRide?.pickupTimeMinute !== undefined)
+                    ? `${selectedRide?.pickupTimeHour.toString().padStart(2, '0')}:${selectedRide?.pickupTimeMinute.toString().padStart(2, '0')}`
+                    : 'Schedule'}
                     </Typography>
                     <Typography variant="h6" color="gray">
                         Driver: {selectedRide?.driver}
                     </Typography>
                     <Typography variant="h6" color="gray">
-                        Vehicle Identification: {selectedRide?.carDetails}
+                        Vehicle Identification: {selectedRide?.vehicle}
                     </Typography>
                     <DialogActions sx={{ padding: '1px', marginTop: '1rem', width: '100%' }}>
                         <Button
