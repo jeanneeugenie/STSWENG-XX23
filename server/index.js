@@ -4,7 +4,6 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
-import cors from 'cors'
 
 //route imports
 import authRoutes from "./routes/authRoute.js"
@@ -12,6 +11,8 @@ import rideRoutes from "./routes/rideRoute.js"
 import userRoutes from "./routes/userRoute.js"
 
 dotenv.config();
+
+const app = express();
 
 const corsOptions = {
     origin: (origin, callback) => {
