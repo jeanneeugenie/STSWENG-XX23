@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import RidePostCard from '../components/cards/ridepost';
 import FilterSection from '../components/header/filters';
 import { Button, Dialog, DialogContent, DialogActions, TextField, Typography, Rating, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
@@ -21,15 +22,25 @@ const HomePage = ({ isDriver }) => {
     };
 
     const [filters, setFilters] = useState({});
+    const [tempData, setTempData] = useState([]);
     const [dialogState, setDialogState] = useState(false);
     const [selectedRide, setSelectedRide] = useState(null);
     const [detailsDialogOpen, setDetailsDialogOpen] = useState(false); 
     const [bookedRide, setBookedRide] = useState(null);
 
-    const tempData = [
-        { id: 1, driver: 'Driver A', rating: 5, pickupPoint: 'George Ty Building', destination: 'Paseo Outlets', pickupHour: '12', pickupMinute: '5', carDetails: 'ABC 1234, White Toyota Fortuner', maxPass: 4 },
-        { id: 2, driver: 'Driver B', rating: 4, pickupPoint: 'Richard Lee Block', destination: 'Vista Mall Sta. Rosa', pickupHour: '10', pickupMinute: '30', carDetails: 'DEF 5678, Black Isuzu D-Max', maxPass: 3 },
-    ];
+    useEffect(() => {
+        const fetchRides = async () => {
+            try {
+                const response = await axios.get('http://localhost:2805/api/ride/getAllRides');
+                console.log('API Response:', response.data.allRides);
+                setTempData(response.data.allRides);
+            } catch (error) {
+                console.error('Error fetching rides:', error);
+            }
+        };
+
+        fetchRides();
+    }, []);
 
     const filterRides = tempData.filter((ride) => {
         return (
@@ -81,13 +92,13 @@ const HomePage = ({ isDriver }) => {
                     <RidePostCard 
                         key={ride.id}
                         rating={ride.rating} 
-                        destination={ride.destination} 
+                        destination={ride.dropoff} 
                         pickupPoint={ride.pickupPoint} 
                         driver={ride.driver} 
-                        pickupHour={ride.pickupHour} 
-                        pickupMinute={ride.pickupMinute} 
+                        pickupHour={ride.pickupTimeHour} 
+                        pickupMinute={ride.pickupTimeMinute} 
                         getRide={getRide} 
-                        carDetails={ride.carDetails} 
+                        carDetails={ride.vehicle} 
                         maxPass={ride.maxPass}
                         openRideDetails={() => openRideDetails(ride)}
                     />
