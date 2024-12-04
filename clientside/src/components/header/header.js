@@ -3,8 +3,8 @@ import { AppBar, Toolbar, Button, Avatar, Box, Typography } from '@mui/material'
 import { Link } from 'react-router-dom';
 import blankProfile from '../imgs/blankProfile.jpg';
 
-const AppHeader = ({isLoggedIn, onLogOut, userName}) => {
-  const appusername = userName;
+const AppHeader = ({isLoggedIn, onLogOut, userEmail}) => {
+  const appemail = userEmail;
   return (
     <AppBar
       position="static"
@@ -102,7 +102,7 @@ const AppHeader = ({isLoggedIn, onLogOut, userName}) => {
                   textAlign: 'center',
                 }}
               >
-                {appusername}
+                {appemail}
               </Typography>
             </Box>
             <Button

@@ -15,7 +15,7 @@ const App = () => {
         setIsLoggedIn(false);
         alert('You have been logged out!');
     };
-    const handleLogIn = (name) => {
+    const handleLogIn = (userEmail) => {
         setIsLoggedIn(true);
         setUserEmail(userEmail);
     };
