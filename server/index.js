@@ -16,9 +16,8 @@ const app = express();
 
 const corsOptions = {
     origin: (origin, callback) => {
-        // Allow HTTP or HTTPS on any IP with port 3000
-        const allowed = /^https?:\/\/[\d.]+:2805$/.test(origin) || origin === "http://localhost:2805" || origin === "https://localhost:2805";
-        if (allowed || !origin) {
+        const allowed = /^(http:\/\/localhost:3000|https?:\/\/localhost:2805)$/.test(origin) || !origin;
+        if (allowed) {
             callback(null, true);
         } else {
             callback(new Error('Not allowed by CORS'));
